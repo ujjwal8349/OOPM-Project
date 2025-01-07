@@ -20,12 +20,10 @@ public:
     void inputDetails() {
         cout << "\nEnter Member ID: ";
         cin >> id;
-        cin.ignore();
         cout << "Enter Name: ";
         getline(cin, name);
         cout << "Enter Age: ";
         cin >> age;
-        cin.ignore();
         cout << "Enter Gender: ";
         getline(cin, gender);
         cout << "Enter Contact Info: ";
