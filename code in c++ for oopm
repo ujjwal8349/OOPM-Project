@@ -1,0 +1,108 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Passenger {
+    string name;
+    int age;
+    string seatNumber;
+};
+
+class RailwayReservationSystem {
+private:
+    vector<string> availableSeats;
+    vector<Passenger> bookedPassengers;
+
+public:
+    RailwayReservationSystem() {
+        // Initializing available seats
+        for (int i = 1; i <= 10; ++i) {
+            availableSeats.push_back("S" + to_string(i));
+        }
+    }
+
+    void displayAvailableSeats() {
+        cout << "\nAvailable Seats: ";
+        if (availableSeats.empty()) {
+            cout << "No seats available.\n";
+        } else {
+            for (const auto& seat : availableSeats) {
+                cout << seat << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    void bookTicket() {
+        if (availableSeats.empty()) {
+            cout << "Sorry, no seats available for booking.\n";
+            return;
+        }
+
+        Passenger passenger;
+        cout << "Enter your name: ";
+        cin >> passenger.name;
+        cout << "Enter your age: ";
+        cin >> passenger.age;
+
+        // Assign the first available seat
+        passenger.seatNumber = availableSeats.front();
+        bookedPassengers.push_back(passenger);
+
+        // Remove the booked seat from available seats
+        availableSeats.erase(availableSeats.begin());
+
+        cout << "Ticket booked successfully!\n";
+        cout << "Name: " << passenger.name << ", Age: " << passenger.age
+             << ", Seat Number: " << passenger.seatNumber << endl;
+    }
+
+    void viewBookedTickets() {
+        cout << "\nBooked Tickets: \n";
+        if (bookedPassengers.empty()) {
+            cout << "No tickets booked yet.\n";
+        } else {
+            for (const auto& passenger : bookedPassengers) {
+                cout << "Name: " << passenger.name 
+                     << ", Age: " << passenger.age 
+                     << ", Seat Number: " << passenger.seatNumber << endl;
+            }
+        }
+    }
+};
+
+int main() {
+    RailwayReservationSystem system;
+    int choice;
+
+    do {
+        cout << "\n--- Railway Reservation System ---\n";
+        cout << "1. Display Available Seats\n";
+        cout << "2. Book Ticket\n";
+        cout << "3. View Booked Tickets\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                system.displayAvailableSeats();
+                break;
+            case 2:
+                system.bookTicket();
+                break;
+            case 3:
+                system.viewBookedTickets();
+                break;
+            case 4:
+                cout << "Exiting the system. Thank you!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
