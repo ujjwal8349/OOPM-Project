@@ -1,0 +1,183 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+#define MAX_MEMBERS 100 // Maximum number of members
+
+// Class definition for Member
+class Member {
+public:
+    int id;
+    string name;
+    int age;
+    string gender;
+    string contact;
+    string membershipType;
+    string startDate;
+    string endDate;
+
+    // Method to input member details
+    void inputDetails() {
+        cout << "\nEnter Member ID: ";
+        cin >> id;
+        cin.ignore();
+        cout << "Enter Name: ";
+        getline(cin, name);
+        cout << "Enter Age: ";
+        cin >> age;
+        cin.ignore();
+        cout << "Enter Gender: ";
+        getline(cin, gender);
+        cout << "Enter Contact Info: ";
+        getline(cin, contact);
+        cout << "Enter Membership Type (Monthly/Annual): ";
+        getline(cin, membershipType);
+        cout << "Enter Start Date (DD/MM/YYYY): ";
+        getline(cin, startDate);
+        cout << "Enter End Date (DD/MM/YYYY): ";
+        getline(cin, endDate);
+    }
+
+    // Method to display member details
+    void displayDetails() const {
+        cout << "\nMember ID: " << id;
+        cout << "\nName: " << name;
+        cout << "\nAge: " << age;
+        cout << "\nGender: " << gender;
+        cout << "\nContact Info: " << contact;
+        cout << "\nMembership Type: " << membershipType;
+        cout << "\nStart Date: " << startDate;
+        cout << "\nEnd Date: " << endDate << endl;
+    }
+};
+
+// Gym Management System Class
+class GymManagement {
+private:
+    Member members[MAX_MEMBERS];
+    int totalMembers;
+
+public:
+    // Constructor to initialize total members
+    GymManagement() {
+        totalMembers = 0;
+    }
+
+    // Add a new member
+    void addMember() {
+        if (totalMembers < MAX_MEMBERS) {
+            cout << "\n--- Add New Member ---\n";
+            members[totalMembers].inputDetails();
+            totalMembers++;
+            cout << "\nMember added successfully!\n";
+        } else {
+            cout << "\nMaximum member limit reached!\n";
+        }
+    }
+
+    // View all members
+    void viewMembers() {
+        if (totalMembers == 0) {
+            cout << "\nNo members to display.\n";
+            return;
+        }
+
+        cout << "\n--- All Gym Members ---\n";
+        for (int i = 0; i < totalMembers; i++) {
+            cout << "\nMember " << i + 1 << ":";
+            members[i].displayDetails();
+        }
+    }
+
+    // Search member by ID
+    void searchMember() {
+        if (totalMembers == 0) {
+            cout << "\nNo members to search.\n";
+            return;
+        }
+
+        int searchId;
+        cout << "\nEnter Member ID to search: ";
+        cin >> searchId;
+
+        for (int i = 0; i < totalMembers; i++) {
+            if (members[i].id == searchId) {
+                cout << "\nMember Found:";
+                members[i].displayDetails();
+                return;
+            }
+        }
+
+        cout << "\nMember not found.\n";
+    }
+
+    // Delete member by ID
+    void deleteMember() {
+        if (totalMembers == 0) {
+            cout << "\nNo members to delete.\n";
+            return;
+        }
+
+        int deleteId;
+        cout << "\nEnter Member ID to delete: ";
+        cin >> deleteId;
+
+        for (int i = 0; i < totalMembers; i++) {
+            if (members[i].id == deleteId) {
+                // Shift members to fill the gap
+                for (int j = i; j < totalMembers - 1; j++) {
+                    members[j] = members[j + 1];
+                }
+                totalMembers--;
+                cout << "\nMember deleted successfully!\n";
+                return;
+            }
+        }
+
+        cout << "\nMember not found.\n";
+    }
+};
+
+// Main function
+int main() {
+    GymManagement gym;
+    int choice;
+
+    do {
+        cout << "\n--- Gym Membership Management System ---";
+        cout << "\n1. Add Member";
+        cout << "\n2. View All Members";
+        cout << "\n3. Search Member by ID";
+        cout << "\n4. Delete Member by ID";
+        cout << "\n5. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                gym.addMember();
+                break;
+
+            case 2:
+                gym.viewMembers();
+                break;
+
+            case 3:
+                gym.searchMember();
+                break;
+
+            case 4:
+                gym.deleteMember();
+                break;
+
+            case 5:
+                cout << "\nExiting...\n";
+                break;
+
+            default:
+                cout << "\nInvalid choice! Try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
